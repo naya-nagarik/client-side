@@ -224,7 +224,7 @@ export default function DocumentWizardPage() {
                     title={doc.title}
                     description={doc.description}
                     category={doc.category}
-                    complexity={doc.complexity}
+                    complexity={doc.complexity as 'low' | 'medium' | 'high'}
                     timeTaken={doc.timeTaken}
                   />
                 ))

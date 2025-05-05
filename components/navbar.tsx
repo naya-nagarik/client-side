@@ -13,6 +13,7 @@ import {
   Menu, 
   X,
   Sparkles,
+  LogIn
 } from 'lucide-react'
 import {
   Sheet,
@@ -20,17 +21,33 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
+// Mock user data - in a real app, this would come from your auth system
+const mockUser = {
+  isLoggedIn: true,
+  name: "Binod Karki",
+  email: "binod.karki@example.com",
+  avatar: "" // Empty for fallback
+}
 
 const navItems = [
   { name: 'Home', path: '/' },
   { name: 'My Dashboard', path: '/dashboard' },
-  { name: 'Micro-Apps', path: '/apps' },
-  { name: 'Resources', path: '/resources' },
+  { name: 'Micro-Apps', path: '/dashboard?tab=overview#micro-apps' },
+  { name: 'Resources', path: '/apps/resources' },
 ]
 
 export default function Navbar() {
   const pathname = usePathname()
   const [isScrolled, setIsScrolled] = useState(false)
+  const [user, setUser] = useState(mockUser)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -44,6 +61,10 @@ export default function Navbar() {
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  const handleLogout = () => {
+    setUser({ ...user, isLoggedIn: false })
+  }
 
   return (
     <header className={cn(
@@ -106,17 +127,69 @@ export default function Navbar() {
         <div className="flex items-center gap-2">
           <LanguageToggle />
           <ThemeToggle />
-          <Button variant="ghost" size="icon" className="relative">
-            <Bell className="h-5 w-5" />
-            <span className="absolute top-1 right-1 flex h-2 w-2 rounded-full bg-destructive"></span>
-            <span className="sr-only">Notifications</span>
-          </Button>
-          <Avatar className="h-9 w-9">
-            <AvatarImage src="" alt="User" />
-            <AvatarFallback className="bg-primary/10">
-              <User className="h-5 w-5" />
-            </AvatarFallback>
-          </Avatar>
+          
+          {user.isLoggedIn ? (
+            <>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon" className="relative">
+                    <Bell className="h-5 w-5" />
+                    <span className="absolute top-1 right-1 flex h-2 w-2 rounded-full bg-destructive"></span>
+                    <span className="sr-only">Notifications</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-80">
+                  <div className="flex items-center justify-between px-4 py-2 border-b">
+                    <h3 className="font-medium">Notifications</h3>
+                    <Button variant="ghost" size="sm">Mark all as read</Button>
+                  </div>
+                  <div className="py-2">
+                    <p className="text-sm text-center text-muted-foreground py-4">No new notifications</p>
+                  </div>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Avatar className="h-9 w-9 cursor-pointer">
+                    <AvatarImage src={user.avatar} alt={user.name} />
+                    <AvatarFallback className="bg-primary/10">
+                      {user.name.split(' ').map(n => n[0]).join('')}
+                    </AvatarFallback>
+                  </Avatar>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <div className="flex items-center justify-start gap-2 p-2">
+                    <div className="flex flex-col space-y-1 leading-none">
+                      <p className="font-medium">{user.name}</p>
+                      <p className="text-sm text-muted-foreground">{user.email}</p>
+                    </div>
+                  </div>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <Link href="/dashboard">Dashboard</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/profile">Profile</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/settings">Settings</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleLogout}>
+                    Log out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </>
+          ) : (
+            <Button asChild variant="default" size="sm">
+              <Link href="/login">
+                <LogIn className="h-4 w-4 mr-2" />
+                Login
+              </Link>
+            </Button>
+          )}
         </div>
       </div>
     </header>

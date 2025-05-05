@@ -31,7 +31,7 @@ export default function Footer() {
           </Link>
         </div>
         <p className="text-center text-sm text-muted-foreground md:text-right flex items-center">
-          Made with <Heart className="h-4 w-4 mx-1 text-red-500" /> in Nepal
+          Made with <Heart className="h-4 w-4 mx-1 text-red-500" /> in <a href="https://en.wikipedia.org/wiki/Nepal" target="_blank" rel="noopener noreferrer" className="ml-1 hover:text-foreground">Nepal</a>
         </p>
       </div>
     </footer>

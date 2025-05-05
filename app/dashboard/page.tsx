@@ -262,7 +262,7 @@ export default function DashboardPage() {
             
             {/* Micro Apps Section */}
             <div>
-              <h2 className="text-xl font-semibold mb-4">Micro Apps</h2>
+              <h2 id="micro-apps" className="text-xl font-semibold mb-4">Micro Apps</h2>
               <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
                 <MicroAppCard 
                   icon={<FileText className="h-8 w-8" />}

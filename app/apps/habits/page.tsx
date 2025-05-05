@@ -63,7 +63,7 @@ export default function HabitTrackerPage() {
     title: '',
     description: '',
     category: '',
-    frequency: 'daily' as const
+    frequency: 'daily'
   })
   
   const addHabit = () => {

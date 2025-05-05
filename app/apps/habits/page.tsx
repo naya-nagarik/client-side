@@ -59,13 +59,13 @@ export default function HabitTrackerPage() {
     }
   ])
   
-  const [newHabit, setNewHabit] = useState({
+  const [newHabit, setNewHabit] = useState<Omit<Habit, 'id' | 'streak' | 'completed' | 'progress' | 'startDate'>>({
     title: '',
     description: '',
     category: '',
     frequency: 'daily'
   })
-  
+
   const addHabit = () => {
     if (!newHabit.title) {
       toast({

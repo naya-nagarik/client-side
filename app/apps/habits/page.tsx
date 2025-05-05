@@ -142,7 +142,6 @@ export default function HabitTrackerPage() {
             <CardHeader>
               <CardTitle>Progress Overview</CardTitle>
               <CardDescription>Your habit completion rate</CardDescription>
-            
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
@@ -169,7 +168,7 @@ export default function HabitTrackerPage() {
                 </div>
                 <div>
                   <span className="text-2xl font-bold">
-                    {Math.max(...habits.map(h => h.streak))} days
+                    {Math.max(...habits.map(h => h.streak), 0)} days
                   </span>
                   <p className="text-sm text-muted-foreground">Keep it up!</p>
                 </div>
